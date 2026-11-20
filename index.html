@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#F7F6FA">
-  <meta name="description" content="Brainiocity introduces the Neural Advancement Protocol, a more intentional approach to rest, cognition, and intellectual confidence.">
+  <meta name="description" content="Brainiocity takes a more intentional approach to cognitive potential through non-invasive neural optimization.">
   <title>Brainiocity™ | Human Intelligence. Reimagined.</title>
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="preload" href="assets/newsreader.woff2" as="font" type="font/woff2" crossorigin>
@@ -18,12 +18,12 @@
       <a class="wordmark" href="#top" aria-label="Brainiocity home"><span class="brand-mark" aria-hidden="true"></span>Brainiocity<sup>™</sup></a>
       <button type="button" class="menu-button" id="menu-button" aria-expanded="false" aria-controls="main-nav">Menu <span aria-hidden="true"></span></button>
       <nav id="main-nav" class="main-nav" aria-label="Main navigation">
-        <a href="#technology">Technology</a>
         <a href="#assessment">Assessment</a>
-        <a href="#brainiocracy">Membership</a>
+        <a href="#technology">Technology</a>
         <a href="#research">Research</a>
+        <a href="#brainiocracy">Membership</a>
       </nav>
-      <a href="#simulator" class="button button-small header-action">Try NAP™</a>
+      <a href="#assessment" class="button button-small header-action">Explore Your Potential</a>
     </div>
   </header>
 
@@ -36,8 +36,8 @@
             <h1 id="hero-title">Human Intelligence.<br><em>Reimagined.</em></h1>
             <p class="hero-description">Discover a more intentional approach to cognitive potential through the next generation of non-invasive neural optimization.</p>
             <div class="button-row">
-              <a class="button" href="#simulator">Explore Your Potential</a>
-              <a class="button button-outline" href="#technology">Discover NAP™</a>
+              <a class="button" href="#assessment">Explore Your Potential</a>
+              <a class="button button-outline" href="#technology">Our Approach</a>
             </div>
           </div>
           <figure class="hero-figure">
@@ -50,9 +50,66 @@
           </figure>
         </div>
         <div class="hero-note">
-          <span>Neural Advancement Protocol<span class="small-tm">™</span></span>
+          <span>Cognitive optimization</span>
           <span>Non-invasive by design</span>
           <span>Built around human cognition</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section assessment" id="assessment" aria-labelledby="assessment-title">
+      <div class="container assessment-layout">
+        <div class="section-copy">
+          <p class="eyebrow">Cognitive Assessment</p>
+          <h2 id="assessment-title">Establish your baseline.</h2>
+          <p>Establish your cognitive profile with a brief self-assessment. Qualified participants receive formal recognition from the Brainiocracy™.</p>
+          <p class="quiet-note">Five questions. No preparation required.</p>
+        </div>
+        <div class="assessment-card">
+          <div id="assessment-intro">
+            <div class="assessment-mark"><span class="brand-mark" aria-hidden="true"></span></div>
+            <h3>Begin your assessment.</h3>
+            <p>A short review of your experience with thought, ideas, and being right.</p>
+            <button class="button" id="assessment-start" type="button">Begin Assessment</button>
+          </div>
+          <form id="assessment-form" hidden>
+            <p class="eyebrow" id="question-count"></p>
+            <fieldset><legend id="question-text" tabindex="-1"></legend><div id="question-options" class="question-options"></div></fieldset>
+            <div class="assessment-actions">
+              <button id="question-back" class="text-button" type="button">Back</button>
+              <button class="button" id="question-next" type="submit">Continue</button>
+            </div>
+          </form>
+          <form id="certificate-form" hidden>
+            <p class="eyebrow">Assessment Complete</p>
+            <h3 tabindex="-1" id="qualification-title">You qualify.</h3>
+            <p>Your responses qualify you for the Certified Cognitive Elite novelty credential from the Brainiocracy™.</p>
+            <label class="field-label" for="display-name">Display name</label>
+            <input type="text" id="display-name" name="display-name" maxlength="64" required autocomplete="off" placeholder="Name for your certificate">
+            <p class="fine-print">Your name stays on this device for this session.</p>
+            <div class="assessment-actions"><button class="text-button" type="button" id="assessment-restart">Restart assessment</button><button class="button" type="submit">Generate Certificate</button></div>
+          </form>
+          <div id="certificate-view" hidden>
+            <article class="certificate" id="certificate">
+              <span class="brand-mark" aria-hidden="true"></span>
+              <p class="eyebrow">The Brainiocracy™</p>
+              <h3 tabindex="-1" id="certificate-title">Certified Cognitive Elite</h3>
+              <p class="certificate-name" id="certificate-name" dir="auto"></p>
+              <p>This individual has demonstrated extraordinary potential for intellectual self-confidence.</p>
+              <p class="certificate-disclosure">Novelty credential. No academic or professional standing.</p>
+              <p class="certificate-referral">
+                <span id="certificate-referral-label">Discover Your Cognitive Potential at Brainiocity™</span>
+                <a id="certificate-referral-url"></a>
+              </p>
+            </article>
+            <div class="certificate-actions">
+              <button class="button" type="button" id="download-certificate">Download Certificate</button>
+              <button class="button button-outline" type="button" id="print-certificate">Print</button>
+              <button class="text-button" type="button" id="edit-name">Edit name</button>
+            </div>
+            <p class="fine-print" id="certificate-download-status" role="status" hidden></p>
+          </div>
+          <a class="text-button assessment-next-step" id="assessment-next-step" href="#technology" hidden>Explore Your Optimization Options</a>
         </div>
       </div>
     </section>
@@ -61,13 +118,14 @@
       <div class="container">
         <div class="split-heading">
           <div><p class="eyebrow">The Technology</p><h2 id="technology-title">The Neural<br class="desktop-break"> Advancement Protocol<span class="tm">™</span></h2></div>
-          <p>NAP™ optimizes the relationship between rest, cognition, and confidence. It starts with a simple observation. The mind already knows how to step away from a problem. Until now, it has largely done so on its own.</p>
+          <p>The protocol optimizes the relationship between rest, cognition, and confidence. It starts with a simple observation. The mind already knows how to step away from a problem. Until now, it has largely done so on its own.</p>
         </div>
         <div class="pillars">
           <article><span class="pillar-icon alignment" aria-hidden="true"></span><h3>Neural Alignment</h3><p>Give existing cognitive pathways the space to align with their own natural patterns of activity.</p></article>
           <article><span class="pillar-icon restoration" aria-hidden="true"></span><h3>Cognitive Restoration</h3><p>Reduce external inputs in a quiet setting, preferably with your eyes closed.</p></article>
           <article><span class="pillar-icon confidence" aria-hidden="true"></span><h3>Intellectual Confidence</h3><p>Return to your usual activities with a renewed sense of what you may already be capable of.</p></article>
         </div>
+        <p class="protocol-reveal">We call it <strong>NAP™</strong>.</p>
       </div>
     </section>
 
@@ -124,108 +182,7 @@
       </div>
     </section>
 
-    <section class="section assessment" id="assessment" aria-labelledby="assessment-title">
-      <div class="container assessment-layout">
-        <div class="section-copy">
-          <p class="eyebrow">Cognitive Assessment</p>
-          <h2 id="assessment-title">How far has your<br class="desktop-break"> thinking taken you?</h2>
-          <p>Establish your cognitive profile with a brief self-assessment. Qualified participants receive formal recognition from the Brainiocracy™.</p>
-          <p class="quiet-note">Five questions. No preparation required.</p>
-        </div>
-        <div class="assessment-card">
-          <div id="assessment-intro">
-            <div class="assessment-mark"><span class="brand-mark" aria-hidden="true"></span></div>
-            <h3>Establish your baseline.</h3>
-            <p>A short review of your experience with thought, ideas, and being right.</p>
-            <button class="button" id="assessment-start" type="button">Begin Assessment</button>
-          </div>
-          <form id="assessment-form" hidden>
-            <p class="eyebrow" id="question-count"></p>
-            <fieldset><legend id="question-text" tabindex="-1"></legend><div id="question-options" class="question-options"></div></fieldset>
-            <div class="assessment-actions">
-              <button id="question-back" class="text-button" type="button">Back</button>
-              <button class="button" id="question-next" type="submit">Continue</button>
-            </div>
-          </form>
-          <form id="certificate-form" hidden>
-            <p class="eyebrow">Assessment Complete</p>
-            <h3 tabindex="-1" id="qualification-title">You qualify.</h3>
-            <p>Your responses demonstrate the potential for intellectual self-confidence required for Brainiocracy™ membership.</p>
-            <label class="field-label" for="display-name">Display name</label>
-            <input type="text" id="display-name" name="display-name" maxlength="64" required autocomplete="off" placeholder="Name for your certificate">
-            <p class="fine-print">Your name stays on this device for this session.</p>
-            <div class="assessment-actions"><button class="text-button" type="button" id="assessment-restart">Restart assessment</button><button class="button" type="submit">Generate Certificate</button></div>
-          </form>
-          <div id="certificate-view" hidden>
-            <article class="certificate" id="certificate">
-              <span class="brand-mark" aria-hidden="true"></span>
-              <p class="eyebrow">The Brainiocracy™</p>
-              <h3 tabindex="-1" id="certificate-title">Certified Cognitive Elite</h3>
-              <p class="certificate-name" id="certificate-name" dir="auto"></p>
-              <p>This individual has demonstrated extraordinary potential for intellectual self-confidence.</p>
-              <p class="certificate-disclosure">Novelty credential. No academic or professional standing.</p>
-            </article>
-            <div class="certificate-actions">
-              <button class="button" type="button" id="download-certificate">Download Certificate</button>
-              <button class="button button-outline" type="button" id="print-certificate">Print</button>
-              <button class="text-button" type="button" id="edit-name">Edit name</button>
-            </div>
-            <p class="fine-print" id="certificate-download-status" role="status" hidden></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section membership" id="brainiocracy" aria-labelledby="membership-title">
-      <div class="container">
-        <div class="split-heading">
-          <div><p class="eyebrow">Membership Society</p><h2 id="membership-title">The Brainiocracy<span class="tm">™</span></h2></div>
-          <p>A private society for the cognitively ambitious. Members are distinguished by their commitment to personal advancement, as expressed through their subscription level.</p>
-        </div>
-        <div class="membership-explorer">
-          <div class="tier-buttons" role="group" aria-label="Explore membership tiers">
-            <button type="button" class="tier-button bronze" aria-pressed="true" data-tier="bronze" aria-controls="tier-detail"><span class="mini-pin" aria-hidden="true"></span><span><strong>Bronze</strong><span>Neuron Novice™</span></span></button>
-            <button type="button" class="tier-button silver" aria-pressed="false" data-tier="silver" aria-controls="tier-detail"><span class="mini-pin" aria-hidden="true"></span><span><strong>Silver</strong><span>Synaptic Elite™</span></span></button>
-            <button type="button" class="tier-button gold" aria-pressed="false" data-tier="gold" aria-controls="tier-detail"><span class="mini-pin" aria-hidden="true"></span><span><strong>Gold</strong><span>Cognitive Superior™</span></span></button>
-            <button type="button" class="tier-button platinum" aria-pressed="false" data-tier="platinum" aria-controls="tier-detail"><span class="mini-pin" aria-hidden="true"></span><span><strong>Platinum</strong><span>Neural Overlord™</span></span></button>
-            <button type="button" class="tier-button black" aria-pressed="false" data-tier="black" aria-controls="tier-detail"><span class="mini-pin" aria-hidden="true"></span><span><strong>Black</strong><span>The Illuminated™</span></span></button>
-          </div>
-          <div class="tier-detail bronze" id="tier-detail">
-            <div class="tier-visual" aria-hidden="true"><div class="display-pin"><span class="brand-mark"></span></div></div>
-            <div class="tier-copy" aria-live="polite">
-              <p class="eyebrow" id="tier-finish">Bronze Distinction</p>
-              <h3 id="tier-name">Neuron Novice™</h3>
-              <p id="tier-description">Entry-level cognitive distinction. A formal acknowledgment that you have begun to think about thinking.</p>
-              <p class="tier-benefit" id="tier-benefit">Available with NAP Basic.</p>
-              <a href="#black-diamond" class="text-button" id="tier-black-link" hidden>Discover Black Diamond™</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section pricing" id="plans" aria-labelledby="pricing-title">
-      <div class="container">
-        <div class="split-heading">
-          <div><p class="eyebrow">Subscription Plans</p><h2 id="pricing-title">Invest in your potential.</h2></div>
-          <p>Choose a level of cognitive support that reflects where you see yourself going.</p>
-        </div>
-        <div class="price-grid">
-          <article class="price-card"><p class="eyebrow">Bronze Membership</p><h3>NAP Basic</h3><p class="price">$9.99<span>/ month</span></p><p>Ordinary thinking and essential cognitive reassurance.</p><button type="button" class="button button-outline plan-button" data-plan="basic">Explore Basic</button></article>
-          <article class="price-card"><p class="eyebrow">Silver Membership</p><h3>NAP Plus</h3><p class="price">$29.99<span>/ month</span></p><p>Enhanced confidence and access to digital credentials.</p><button type="button" class="button button-outline plan-button" data-plan="plus">Explore Plus</button></article>
-          <article class="price-card featured"><p class="eyebrow">Gold Membership</p><h3>NAP Pro</h3><p class="price">$79.99<span>/ month</span></p><p>Premium intellectual affirmation and advanced social distinction.</p><button type="button" class="button plan-button" data-plan="pro">Explore Pro</button></article>
-          <article class="price-card"><p class="eyebrow">Platinum Membership</p><h3>NAP Executive</h3><p class="price">$149.99<span>/ month</span></p><p>Unshakable confidence regardless of demonstrated competence.</p><button type="button" class="button button-outline plan-button" data-plan="executive">Explore Executive</button></article>
-        </div>
-        <div class="comparison">
-          <p><strong>Independent thought</strong><span>Included with all plans</span></p>
-          <p><strong>Confidence without evidence</strong><span>Executive only</span></p>
-          <p><strong>Actual intelligence increase</strong><span>Not currently supported</span></p>
-        </div>
-        <p class="fine-print pricing-note">Fictional demonstration prices.</p>
-      </div>
-    </section>
-
-    <section class="section testimonials" aria-labelledby="testimonials-title">
+    <section class="section testimonials" id="testimonials" aria-labelledby="testimonials-title">
       <div class="container">
         <p class="eyebrow">Member Perspectives</p>
         <h2 id="testimonials-title">A change you can feel.</h2>
@@ -252,18 +209,56 @@
       </div>
     </section>
 
-    <section class="section faq" id="faq" aria-labelledby="faq-title">
-      <div class="container faq-layout">
-        <div><p class="eyebrow">Support</p><h2 id="faq-title">Frequently asked questions.</h2></div>
-        <div class="faq-list">
-          <details><summary>What exactly does NAP do?</summary><p>NAP provides a structured period for rest and reflection. The structure is proprietary. The rest and reflection are yours.</p></details>
-          <details><summary>How soon will I become smarter?</summary><p>Experiences vary. Some members notice a difference in confidence immediately. A measurable increase in intelligence has yet to be scheduled.</p></details>
-          <details><summary>Is the technology invasive?</summary><p>The protocol requires no implants, electrodes, or physical intervention. A comfortable surface is generally sufficient.</p></details>
-          <details><summary>Can my intelligence decrease if I cancel?</summary><p>Your existing intelligence remains yours. You may experience a reduction in the number of emails confirming it.</p></details>
-          <details><summary>Why are some members more cognitively advanced?</summary><p>Our distinctions reflect each member’s level of commitment. Monthly billing gives us a consistent way to measure it.</p></details>
-          <details><summary>Is the Black Diamond tier scientifically validated?</summary><p>Our internal team has verified the finish of the pin. Scientific validation of its wearer remains outside the scope of the program.</p></details>
-          <details><summary>Can I upgrade without completing the assessment?</summary><p>Yes. A willingness to upgrade is one of the strongest indicators we consider.</p></details>
+    <section class="section membership pricing" id="brainiocracy" aria-labelledby="membership-title">
+      <div class="container">
+        <div class="split-heading">
+          <div><p class="eyebrow">Membership Society</p><h2 id="membership-title">The Brainiocracy<span class="tm">™</span></h2></div>
+          <p>A private society for the cognitively ambitious. Members are distinguished by their commitment to personal advancement, as expressed through their subscription level.</p>
         </div>
+        <div class="price-grid" id="plans">
+          <article class="price-card bronze">
+            <div class="tier-visual" aria-hidden="true"><div class="display-pin"><span class="brand-mark"></span></div></div>
+            <p class="eyebrow">Bronze Membership</p>
+            <h3>Neuron Novice™</h3>
+            <p class="plan-name">NAP Basic</p>
+            <p class="price">$9.99<span>/ month</span></p>
+            <p>Ordinary thinking and essential cognitive reassurance.</p>
+            <button type="button" class="button button-outline plan-button" data-plan="basic" aria-haspopup="dialog">Explore Basic</button>
+          </article>
+          <article class="price-card silver">
+            <div class="tier-visual" aria-hidden="true"><div class="display-pin"><span class="brand-mark"></span></div></div>
+            <p class="eyebrow">Silver Membership</p>
+            <h3>Synaptic Elite™</h3>
+            <p class="plan-name">NAP Plus</p>
+            <p class="price">$29.99<span>/ month</span></p>
+            <p>Enhanced confidence and access to digital credentials.</p>
+            <button type="button" class="button button-outline plan-button" data-plan="plus" aria-haspopup="dialog">Explore Plus</button>
+          </article>
+          <article class="price-card gold featured">
+            <div class="tier-visual" aria-hidden="true"><div class="display-pin"><span class="brand-mark"></span></div></div>
+            <p class="eyebrow">Gold Membership</p>
+            <h3>Cognitive Superior™</h3>
+            <p class="plan-name">NAP Pro</p>
+            <p class="price">$79.99<span>/ month</span></p>
+            <p>Premium intellectual affirmation and advanced social distinction.</p>
+            <button type="button" class="button plan-button" data-plan="pro" aria-haspopup="dialog">Explore Pro</button>
+          </article>
+          <article class="price-card platinum">
+            <div class="tier-visual" aria-hidden="true"><div class="display-pin"><span class="brand-mark"></span></div></div>
+            <p class="eyebrow">Platinum Membership</p>
+            <h3>Neural Overlord™</h3>
+            <p class="plan-name">NAP Executive</p>
+            <p class="price">$149.99<span>/ month</span></p>
+            <p>Unshakable confidence regardless of demonstrated competence.</p>
+            <button type="button" class="button button-outline plan-button" data-plan="executive" aria-haspopup="dialog">Explore Executive</button>
+          </article>
+        </div>
+        <div class="comparison">
+          <p><strong>Independent thought</strong><span>Included with all plans</span></p>
+          <p><strong>Confidence without evidence</strong><span>Executive only</span></p>
+          <p><strong>Actual intelligence increase</strong><span>Not currently supported</span></p>
+        </div>
+        <p class="fine-print pricing-note">Fictional demonstration prices.</p>
       </div>
     </section>
 
@@ -287,10 +282,40 @@
           </figure>
         </div>
         <div class="ascension">
-          <div><p class="eyebrow">Founder’s Ascension Fee</p><p class="ascension-price">$999 <span>Fictional one-time fee</span></p></div>
+          <div><p class="eyebrow">Founder’s Ascension Fee</p><p class="ascension-price">$999 <span>Fictional one-time lifetime fee</span></p></div>
           <p>No test is required. No demonstrated aptitude is necessary. The only qualification is willingness to pay.</p>
         </div>
+        <div class="diamond-savings" aria-labelledby="diamond-savings-title">
+          <div>
+            <h3 id="diamond-savings-title">For those intelligent enough to stop paying monthly.</h3>
+            <p>At $149.99 per month, NAP Executive costs more by the seventh payment. Black Diamond is a single $999 lifetime fee.</p>
+          </div>
+          <div>
+            <p class="eyebrow">Fictional 12-month comparison</p>
+            <dl>
+              <div><dt>NAP Executive</dt><dd>$1,799.88</dd></div>
+              <div><dt>Black Diamond</dt><dd>$999.00</dd></div>
+              <div><dt>Illustrative savings</dt><dd>$800.88</dd></div>
+            </dl>
+            <p class="fine-print">Savings calculated relative to the continued purchase of services with no measurable benefit.</p>
+          </div>
+        </div>
         <p class="diamond-closing">“We don't measure intelligence. We recognize purchasing power.”</p>
+      </div>
+    </section>
+
+    <section class="section faq" id="faq" aria-labelledby="faq-title">
+      <div class="container faq-layout">
+        <div><p class="eyebrow">Support</p><h2 id="faq-title">Frequently asked questions.</h2></div>
+        <div class="faq-list">
+          <details><summary>What exactly does NAP do?</summary><p>NAP provides a structured period for rest and reflection. The structure is proprietary. The rest and reflection are yours.</p></details>
+          <details><summary>How soon will I become smarter?</summary><p>Experiences vary. Some members notice a difference in confidence immediately. A measurable increase in intelligence has yet to be scheduled.</p></details>
+          <details><summary>Is the technology invasive?</summary><p>The protocol requires no implants, electrodes, or physical intervention. A comfortable surface is generally sufficient.</p></details>
+          <details><summary>Can my intelligence decrease if I cancel?</summary><p>Your existing intelligence remains yours. You may experience a reduction in the number of emails confirming it.</p></details>
+          <details><summary>Why are some members more cognitively advanced?</summary><p>Our distinctions reflect each member’s level of commitment. Monthly billing gives us a consistent way to measure it.</p></details>
+          <details><summary>Is the Black Diamond tier scientifically validated?</summary><p>Our internal team has verified the finish of the pin. Scientific validation of its wearer remains outside the scope of the program.</p></details>
+          <details><summary>Can I upgrade without completing the assessment?</summary><p>Yes. A willingness to upgrade is one of the strongest indicators we consider.</p></details>
+        </div>
       </div>
     </section>
 
@@ -318,6 +343,7 @@
     <p class="eyebrow" id="dialog-label"></p>
     <h2 id="dialog-title"></h2>
     <p id="dialog-copy"></p>
+    <p id="dialog-detail" hidden></p>
     <p class="fine-print" id="dialog-note"></p>
     <a class="button" id="dialog-action" href="#assessment">Take the Assessment</a>
   </dialog>

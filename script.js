@@ -2,6 +2,12 @@
 
 const byId = (id) => document.getElementById(id);
 
+// Set this to the public site address before a custom-domain launch.
+const publicSiteUrl = "https://brainiocracy.github.io/brainiocity/";
+const certificateReferralLink = byId("certificate-referral-url");
+certificateReferralLink.href = publicSiteUrl;
+certificateReferralLink.textContent = publicSiteUrl;
+
 const menuButton = byId("menu-button");
 const mainNav = byId("main-nav");
 
@@ -81,21 +87,78 @@ const pathways = [
   [27, 29], [28, 29], [29, 32], [30, 31], [31, 32]
 ];
 
+const stageDuration = 1050;
 const stages = [
   { message: "Establishing neural synchronization…", nodes: [0, 1, 2, 3, 4] },
   { message: "Mapping existing cognitive pathways…", nodes: [5, 6, 7, 8, 12] },
-  { message: "Optimizing restorative inactivity…", nodes: [9, 10, 11, 15, 19] },
+  { message: "Optimizing restorative inactivity…", nodes: [9, 10, 11, 15, 19], relay: [21, 27, 29] },
   { message: "Detecting pre-existing intelligence…", nodes: [13, 14, 16, 17, 23] },
-  { message: "Refining confidence architecture…", nodes: [18, 20, 21, 22, 24] },
+  { message: "Refining confidence architecture…", nodes: [18, 20, 21, 22, 24], relay: [0, 1, 2, 4] },
   { message: "Measuring enhanced potential…", nodes: [25, 26, 27, 28, 29] },
   { message: "Finalizing cognitive uplift…", nodes: [20, 29, 30, 31, 32] }
 ];
 
+function softPulse(time, peak, width) {
+  const distance = Math.min(1, Math.abs(time - peak) / width);
+  return .5 + .5 * Math.cos(Math.PI * distance);
+}
+
+function brainActivity(stageIndex, elapsed) {
+  const stage = stages[stageIndex];
+  const finalStage = stageIndex === stages.length - 1;
+  const time = elapsed - stageIndex * stageDuration;
+  const brightness = nodes.map(([x], index) => {
+    const regionalPulse = stage.nodes.includes(index) ? softPulse(time, 340 + index % 5 * 83, 340) : 0;
+    const relayPulse = stage.relay?.includes(index) ? .65 * softPulse(time, 455 + index % 3 * 72, 260) : 0;
+    const finale = finalStage ? .78 * softPulse(time, 260 + x * 1.04, 355) : 0;
+    return Math.max(regionalPulse, relayPulse, finale);
+  });
+
+  const signals = [];
+  pathways.forEach(([from, to], index) => {
+    const regional = stage.nodes.includes(from) && stage.nodes.includes(to);
+    const relay = stage.relay?.includes(from) && stage.relay.includes(to);
+    const sweep = finalStage && index % 3 === 0;
+    if (!regional && !relay && !sweep) return;
+
+    const [startX, startY] = nodes[from];
+    const [endX, endY] = nodes[to];
+    const departure = sweep ? 95 + startX * .83 : (relay ? 340 : 95) + index % 6 * 49;
+    const duration = 240 + Math.hypot(endX - startX, endY - startY) * 2;
+    const travel = (time - departure) / duration;
+    if (travel > 0 && travel < 1) {
+      signals.push({
+        start: nodes[from], end: nodes[to], travel,
+        strength: (relay ? .64 : .88) * Math.min(1, travel * 7, (1 - travel) * 7)
+      });
+    }
+    brightness[to] = Math.max(brightness[to], .9 * softPulse(time, departure + duration + 38, 142));
+  });
+  return { brightness, signals };
+}
+
+function drawNeuralLight(ctx, x, y, strength, size) {
+  const halo = ctx.createRadialGradient(x, y, .35, x, y, size);
+  halo.addColorStop(0, "#fffaff");
+  halo.addColorStop(.29, "#d4c1f0");
+  halo.addColorStop(.61, "#9a7cc67a");
+  halo.addColorStop(1, "#9a7cc600");
+  ctx.globalAlpha = strength;
+  ctx.beginPath();
+  ctx.arc(x, y, size, 0, Math.PI * 2);
+  ctx.fillStyle = halo;
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(x, y, size * .21, 0, Math.PI * 2);
+  ctx.fillStyle = "#fdf8ff";
+  ctx.fill();
+  ctx.globalAlpha = 1;
+}
+
 function drawBrain(stageIndex = -1, elapsed = 0, complete = false) {
   if (!brainContext) return;
   const ctx = brainContext;
-  const active = stages[stageIndex]?.nodes ?? [];
-  const animated = active.length > 0 && !reducedMotion.matches;
+  const activity = stageIndex >= 0 && !reducedMotion.matches ? brainActivity(stageIndex, elapsed) : null;
   ctx.setTransform(2, 0, 0, 2, 0, 0);
   ctx.clearRect(0, 0, 480, 300);
   ctx.translate(1, 7);
@@ -113,7 +176,7 @@ function drawBrain(stageIndex = -1, elapsed = 0, complete = false) {
   ctx.lineWidth = 1.05;
   folds.forEach((path) => ctx.stroke(path));
 
-  if (animated) {
+  if (activity) {
     const scanX = 52 + (elapsed % 4200) / 4200 * 373;
     const scan = ctx.createLinearGradient(scanX - 28, 0, scanX + 28, 0);
     scan.addColorStop(0, "#bcb0d900");
@@ -127,33 +190,50 @@ function drawBrain(stageIndex = -1, elapsed = 0, complete = false) {
   }
 
   for (const [start, end] of pathways) {
-    const lit = active.includes(start) && active.includes(end);
+    const strength = Math.min(activity?.brightness[start] ?? 0, activity?.brightness[end] ?? 0);
     ctx.beginPath();
     ctx.moveTo(...nodes[start]);
     ctx.lineTo(...nodes[end]);
-    ctx.strokeStyle = lit ? "#6d54a5ba" : "#76659d36";
-    ctx.lineWidth = lit ? 1.05 : .72;
+    ctx.strokeStyle = "#76659d36";
+    ctx.lineWidth = .72;
     ctx.stroke();
+    if (strength > .06) {
+      ctx.globalAlpha = strength;
+      ctx.strokeStyle = "#785db0";
+      ctx.lineWidth = 1.1;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
   }
 
   nodes.forEach(([x, y], index) => {
-    const lit = active.includes(index);
-    if (lit) {
-      const pulse = animated ? .5 + .5 * Math.sin(elapsed / 420 + index * .72) : .6;
-      const radius = 5 + 2.1 * pulse;
-      const halo = ctx.createRadialGradient(x, y, .8, x, y, radius);
-      halo.addColorStop(0, "#9b79d4a8");
-      halo.addColorStop(1, "#9b79d400");
-      ctx.beginPath();
-      ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.fillStyle = halo;
-      ctx.fill();
-    }
+    const strength = activity?.brightness[index] ?? 0;
     ctx.beginPath();
-    ctx.arc(x, y, lit ? 2.65 : 1.85, 0, Math.PI * 2);
-    ctx.fillStyle = lit ? "#554181" : complete ? "#8271a8" : "#9386b4";
+    ctx.arc(x, y, 1.85 + strength * 1.45, 0, Math.PI * 2);
+    ctx.fillStyle = strength > .14 ? "#654c94" : complete ? "#8271a8" : "#9386b4";
     ctx.fill();
+    if (strength > .04) drawNeuralLight(ctx, x, y, strength, 7 + strength * 7);
   });
+
+  for (const { start: [x1, y1], end: [x2, y2], travel, strength } of activity?.signals ?? []) {
+    const tail = Math.max(0, travel - .29);
+    const x = x1 + (x2 - x1) * travel;
+    const y = y1 + (y2 - y1) * travel;
+    const tailX = x1 + (x2 - x1) * tail;
+    const tailY = y1 + (y2 - y1) * tail;
+    const trail = ctx.createLinearGradient(tailX, tailY, x, y);
+    trail.addColorStop(0, "#9274ba00");
+    trail.addColorStop(.7, "#a18bc9");
+    trail.addColorStop(1, "#fcf5ff");
+    ctx.beginPath();
+    ctx.moveTo(tailX, tailY);
+    ctx.lineTo(x, y);
+    ctx.globalAlpha = strength;
+    ctx.strokeStyle = trail;
+    ctx.lineWidth = 1.55;
+    ctx.stroke();
+    drawNeuralLight(ctx, x, y, strength, 6.5);
+  }
 }
 
 const simStart = byId("sim-start");
@@ -199,8 +279,8 @@ simStart.addEventListener("click", () => {
   simState.textContent = "Optimizing";
 
   const started = performance.now();
-  const stageDuration = 1050;
   let previousStage = -1;
+  let previousMotionPreference;
   let previousPercent = -1;
   function advance(now) {
     const elapsed = Math.max(0, now - started);
@@ -220,7 +300,9 @@ simStart.addEventListener("click", () => {
       byId("progress-text").textContent = percent + "%";
       previousPercent = percent;
     }
-    if (stageChanged || !reducedMotion.matches) drawBrain(stageIndex, elapsed);
+    const reduce = reducedMotion.matches;
+    if (!reduce || previousMotionPreference !== reduce) drawBrain(stageIndex, elapsed);
+    previousMotionPreference = reduce;
     requestAnimationFrame(advance);
   }
   requestAnimationFrame(advance);
@@ -241,6 +323,7 @@ const assessmentIntro = byId("assessment-intro");
 const assessmentForm = byId("assessment-form");
 const certificateForm = byId("certificate-form");
 const certificateView = byId("certificate-view");
+const assessmentNextStep = byId("assessment-next-step");
 const displayName = byId("display-name");
 const questionText = byId("question-text");
 const questionOptions = byId("question-options");
@@ -294,6 +377,7 @@ assessmentForm.addEventListener("submit", (event) => {
   if (questionIndex === assessmentQuestions.length - 1) {
     assessmentForm.hidden = true;
     certificateForm.hidden = false;
+    assessmentNextStep.hidden = false;
     byId("qualification-title").focus({ preventScroll: true });
     return;
   }
@@ -305,6 +389,7 @@ byId("assessment-restart").addEventListener("click", () => {
   answers.length = 0;
   questionIndex = 0;
   certificateForm.reset();
+  assessmentNextStep.hidden = true;
   displayName.setCustomValidity("");
   showQuestion();
 });
@@ -384,6 +469,11 @@ byId("download-certificate").addEventListener("click", async () => {
     ctx.fillText("for intellectual self-confidence.", 800, 747);
     ctx.font = "400 23px Inter, sans-serif";
     ctx.fillText("Novelty credential. No academic or professional standing.", 800, 895);
+    ctx.fillStyle = "#554d86";
+    ctx.font = "400 20px Inter, sans-serif";
+    ctx.fillText(byId("certificate-referral-label").textContent, 800, 926, 1300);
+    ctx.font = "500 23px Inter, sans-serif";
+    ctx.fillText(publicSiteUrl, 800, 953, 1300);
 
     const blob = await new Promise((resolve) => image.toBlob(resolve, "image/png"));
     if (!blob) throw new Error("The certificate image could not be generated.");
@@ -402,64 +492,38 @@ byId("download-certificate").addEventListener("click", async () => {
   }
 });
 
-const tiers = {
-  bronze: {
-    finish: "Bronze Distinction", name: "Neuron Novice™",
-    description: "Entry-level cognitive distinction. A formal acknowledgment that you have begun to think about thinking.",
-    benefit: "Available with NAP Basic."
-  },
-  silver: {
-    finish: "Silver Distinction", name: "Synaptic Elite™",
-    description: "Enhanced intellectual recognition. Receive a credential you can include in correspondence that did not request one.",
-    benefit: "Available with NAP Plus."
-  },
-  gold: {
-    finish: "Gold Distinction", name: "Cognitive Superior™",
-    description: "Advanced cognitive prestige. Your conclusions may now be presented with the assurance typically reserved for preliminary findings.",
-    benefit: "Available with NAP Pro."
-  },
-  platinum: {
-    finish: "Platinum Distinction", name: "Neural Overlord™",
-    description: "Exceptional intellectual confidence. Benefit from institutional reassurance even when the evidence is taking its time.",
-    benefit: "Available with NAP Executive."
-  },
-  black: {
-    finish: "Black Distinction", name: "The Illuminated™",
-    description: "Reserved for those who have transcended conventional cognitive expectations, including the expectation of being assessed.",
-    benefit: "Conferred through Black Diamond™."
-  }
-};
-
-const tierButtons = [...document.querySelectorAll(".tier-button")];
-const tierDetail = byId("tier-detail");
-
-tierButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const tier = tiers[button.dataset.tier];
-    tierButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
-    tierDetail.className = "tier-detail " + button.dataset.tier;
-    byId("tier-finish").textContent = tier.finish;
-    byId("tier-name").textContent = tier.name;
-    byId("tier-description").textContent = tier.description;
-    byId("tier-benefit").textContent = tier.benefit;
-    byId("tier-black-link").hidden = button.dataset.tier !== "black";
-  });
-});
-
 const plans = {
-  basic: ["NAP Basic", "Your Bronze distinction includes ordinary thinking and essential reassurance. Independent thought is available as standard."],
-  plus: ["NAP Plus", "Your Silver distinction includes access to a digital credential. The credential is portable between conversations."],
-  pro: ["NAP Pro", "Your Gold distinction includes additional decimal places for the same estimated improvement. Precision is a matter of presentation."],
-  executive: ["NAP Executive", "Your Platinum distinction includes confidence without evidence, even in fields outside your experience."]
+  basic: {
+    title: "NAP Basic",
+    copy: "Your Bronze distinction includes ordinary thinking and essential reassurance. Independent thought is available as standard.",
+    detail: "Entry-level cognitive distinction. A formal acknowledgment that you have begun to think about thinking."
+  },
+  plus: {
+    title: "NAP Plus",
+    copy: "Your Silver distinction includes access to a digital credential. The credential is portable between conversations.",
+    detail: "Enhanced intellectual recognition. Receive a credential you can include in correspondence that did not request one."
+  },
+  pro: {
+    title: "NAP Pro",
+    copy: "Your Gold distinction includes additional decimal places for the same estimated improvement. Precision is a matter of presentation.",
+    detail: "Advanced cognitive prestige. Your conclusions may now be presented with the assurance typically reserved for preliminary findings."
+  },
+  executive: {
+    title: "NAP Executive",
+    copy: "Your Platinum distinction includes confidence without evidence, even in fields outside your experience.",
+    detail: "Exceptional intellectual confidence. Benefit from institutional reassurance even when the evidence is taking its time."
+  }
 };
 
 const noveltyDialog = byId("novelty-dialog");
 const dialogAction = byId("dialog-action");
 
-function openNovelty({ label, title, copy, note, action, target }) {
+function openNovelty({ label, title, copy, detail = "", note, action, target }) {
   byId("dialog-label").textContent = label;
   byId("dialog-title").textContent = title;
   byId("dialog-copy").textContent = copy;
+  byId("dialog-detail").textContent = detail;
+  byId("dialog-detail").hidden = !detail;
   byId("dialog-note").textContent = note;
   dialogAction.textContent = action;
   dialogAction.href = target;
@@ -468,9 +532,8 @@ function openNovelty({ label, title, copy, note, action, target }) {
 
 document.querySelectorAll(".plan-button").forEach((button) => {
   button.addEventListener("click", () => {
-    const [title, copy] = plans[button.dataset.plan];
     openNovelty({
-      label: "Plan Preview", title, copy,
+      label: "Plan Preview", ...plans[button.dataset.plan],
       note: "This plan and its price are fictional. No purchase or subscription is available.",
       action: "Take the Assessment", target: "#assessment"
     });
