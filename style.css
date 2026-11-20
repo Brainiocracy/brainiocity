@@ -100,6 +100,7 @@ button { cursor: pointer; }
 .hero-description { max-width: 28rem; font-size: clamp(1rem, 1.45vw, 1.16rem); line-height: 1.68; }
 .hero .button-row { margin-top: 1.85rem; }
 .hero-art { position: relative; display: grid; place-items: center; min-width: 0; aspect-ratio: 1.2; background-color: #f0edf5; isolation: isolate; }
+.hero-art picture { display: contents; }
 .hero-art img { position: absolute; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; }
 .hero-art::after { content: ""; position: absolute; z-index: 1; inset: .9rem; border: 1px solid #8476ad33; pointer-events: none; }
 .frame-corner { position: absolute; z-index: 2; width: .75rem; height: .75rem; border-style: solid; border-color: #8a7eac; }
