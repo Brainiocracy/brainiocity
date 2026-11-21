@@ -119,6 +119,7 @@ button { cursor: pointer; }
 .pillars article + article { border-left: 1px solid var(--line); }
 .pillars p { margin-top: .65rem; }
 .protocol-reveal { margin-top: 1rem; }
+.protocol-reveal p + p { margin-top: .5rem; }
 .protocol-reveal strong { color: var(--indigo); font-weight: 600; }
 .pillar-icon { position: relative; width: 2rem; height: 2rem; display: grid; place-items: center; margin-bottom: 1.55rem; color: var(--violet); }
 .pillar-icon::before, .pillar-icon::after { content: ""; position: absolute; border: 1px solid currentColor; }
@@ -162,6 +163,7 @@ progress::-moz-progress-bar { background: var(--violet); }
 .precision-panel .fine-print { margin-top: .45rem; }
 .precision-panel dl > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .12rem .7rem; padding: .34rem 0; border-bottom: 1px solid var(--line); }
 .precision-panel dt { color: var(--muted); }
+.precision-panel dt a { color: var(--violet); text-underline-offset: .18em; }
 .precision-panel dd { color: var(--indigo); font-variant-numeric: tabular-nums; }
 
 .assessment { background: var(--white); }
@@ -172,21 +174,30 @@ progress::-moz-progress-bar { background: var(--violet); }
 #assessment-intro p, #certificate-form > p:not(.eyebrow), #novelty-dialog p:not(.eyebrow) { margin-top: .8rem; }
 #assessment-intro .button { margin-top: 1.45rem; }
 .assessment-mark { display: grid; place-items: center; width: 2.8rem; height: 2.8rem; margin-bottom: 1.35rem; background: #eae5f2; color: var(--violet); border-radius: 50%; }
-#assessment-form fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
-#assessment-form legend { padding: 0; margin-top: .6rem; color: var(--indigo); font: 400 2rem/1.12 var(--serif); letter-spacing: -.035em; }
+.assessment-question fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.assessment-question legend { padding: 0; margin-top: .6rem; color: var(--indigo); font: 400 2rem/1.12 var(--serif); letter-spacing: -.035em; }
+.bonus-intro { margin: .65rem 0 .4rem; }
+#bonus-title { text-transform: uppercase; }
+.bonus-prompt { margin-top: .65rem; }
 .question-options { display: grid; gap: .5rem; margin-top: 1rem; }
 .question-option { min-height: 2.68rem; display: flex; align-items: center; gap: .6rem; padding: .46rem .72rem; border: 1px solid #dcd6e7; border-radius: .22rem; color: var(--indigo); background: var(--white); cursor: pointer; }
 .question-option:has(:checked) { border-color: var(--violet); background: #ede8f4; }
-.question-option input { width: 1.05rem; height: 1.05rem; margin: 0; accent-color: var(--violet); }
+.question-option input { flex: 0 0 1.05rem; width: 1.05rem; height: 1.05rem; margin: 0; accent-color: var(--violet); }
 .assessment-actions, .certificate-actions { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .75rem; margin-top: 1.3rem; }
 #question-next { margin-inline-start: auto; }
+.evaluation-progress { margin: 1rem 0 .8rem; }
+.evaluation-progress p { min-height: 3.25rem; margin-top: .5rem; }
+.evaluation-confirmation { color: var(--indigo); font-weight: 650; text-transform: uppercase; }
+.credential-invitation { margin: 1rem 0 0; color: var(--indigo); font-size: 1rem; font-weight: 650; }
+#certificate-form .credential-invitation + p { margin-top: .28rem; }
 .field-label { display: block; margin: 1.25rem 0 .3rem; color: var(--indigo); font-size: .875rem; font-weight: 600; }
 #display-name { width: 100%; min-height: 2.8rem; padding: .5rem .7rem; border: 1px solid #aaa1bd; border-radius: .22rem; background: var(--white); color: var(--ink); }
-.certificate { display: grid; justify-items: center; gap: .72rem; padding: clamp(1rem, 3vw, 2.15rem); text-align: center; background: #fdfbff; border: 4px double var(--lavender); }
+.certificate { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: .72rem; padding: clamp(1rem, 3vw, 2.15rem); text-align: center; background: #fdfbff; border: 4px double var(--lavender); }
 .certificate .brand-mark { color: var(--violet); }
 .certificate h3 { margin: 0; }
 .certificate .certificate-name { max-width: 100%; overflow-wrap: anywhere; unicode-bidi: plaintext; color: var(--indigo); font: italic 400 clamp(1.9rem, 3vw, 2.65rem)/1.08 var(--serif); }
-.certificate-disclosure { font-size: .83rem; }
+.certificate-footer { display: grid; gap: .65rem; }
+.certificate-disclosure { font-size: .78rem; line-height: 1.45; }
 .certificate-referral { color: var(--violet); font-size: .83rem; line-height: 1.45; }
 .certificate-referral a { display: block; overflow-wrap: anywhere; text-underline-offset: .18em; }
 .assessment-next-step { display: inline-block; margin-top: 1.25rem; }
@@ -207,6 +218,7 @@ progress::-moz-progress-bar { background: var(--violet); }
 .price-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; }
 .price-card { display: flex; flex-direction: column; align-items: start; gap: .6rem; padding: clamp(1rem, 2.6vw, 1.75rem); border: 1px solid #dbd5e7; border-radius: .34rem; background: var(--white); }
 .price-card.featured { border-color: var(--lavender); }
+.price-card:target { border-color: var(--violet); }
 .price-card h3 { margin: 0; font-size: clamp(1.5rem, 2.2vw, 2rem); }
 .price-card .plan-name { color: var(--violet); font-size: .875rem; font-weight: 600; }
 .price-card .price { color: var(--indigo); font: 400 clamp(2.1rem, 3.2vw, 3.2rem)/1 var(--serif); letter-spacing: -.045em; white-space: nowrap; }
@@ -288,6 +300,16 @@ dialog .button { margin-top: 1.15rem; }
 .dialog-close { position: absolute; top: .45rem; right: .45rem; }
 .close-button { display: grid; place-items: center; width: 2.15rem; height: 2.15rem; background: transparent; border: 1px solid transparent; border-radius: 50%; color: var(--indigo); font-size: 1.5rem; line-height: 1; }
 .close-button:hover { border-color: var(--line); background: var(--paper); }
+
+@media (width > 52rem) {
+  .price-card h3 { min-block-size: 2.16em; }
+
+  @supports (grid-template-rows: subgrid) {
+    .price-card { display: grid; grid-row: span 7; grid-template-rows: subgrid; row-gap: .6rem; }
+    .price-card h3 { min-block-size: auto; }
+    .price-card .button { align-self: stretch; margin-top: 0; }
+  }
+}
 
 @media (max-width: 65rem) {
   .price-card .price span { display: block; margin: .2rem 0 0; }

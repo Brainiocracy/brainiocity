@@ -65,7 +65,7 @@
         <div class="section-copy">
           <p class="eyebrow">Cognitive Assessment</p>
           <h2 id="assessment-title">Establish your baseline.</h2>
-          <p>Establish your cognitive profile with a brief self-assessment. Qualified participants receive formal recognition from the Brainiocracy™.</p>
+          <p>Establish your cognitive profile with a brief self-assessment. Qualified candidates are invited to access our exclusive Neural Advancement Protocol™.</p>
           <p class="quiet-note">Five questions. No preparation required.</p>
         </div>
         <div class="assessment-card">
@@ -75,7 +75,7 @@
             <p>A short review of your experience with thought, ideas, and being right.</p>
             <button class="button" id="assessment-start" type="button">Begin Assessment</button>
           </div>
-          <form id="assessment-form" hidden>
+          <form class="assessment-question" id="assessment-form" hidden>
             <p class="eyebrow" id="question-count"></p>
             <fieldset><legend id="question-text" tabindex="-1"></legend><div id="question-options" class="question-options"></div></fieldset>
             <div class="assessment-actions">
@@ -83,13 +83,42 @@
               <button class="button" id="question-next" type="submit">Continue</button>
             </div>
           </form>
+          <form class="assessment-question" id="bonus-form" hidden>
+            <p class="eyebrow">Additional Qualification Opportunity</p>
+            <p class="bonus-intro">Based on your responses, you have been selected to participate in an advanced cognitive evaluation.</p>
+            <fieldset aria-describedby="bonus-prompt">
+              <legend id="bonus-title" tabindex="-1">Bonus Question: Advanced Cognitive Reasoning</legend>
+              <p class="bonus-prompt" id="bonus-prompt">A train departs Chicago traveling west at 50 mph. A second train departs Denver traveling east at 65 mph. Both trains experience a 12% reduction in velocity due to atmospheric conditions. Assuming a variable coefficient of cognitive resistance, at what point does the first train become aware of its own limitations?</p>
+              <div class="question-options">
+                <label class="question-option"><input type="radio" name="bonus-answer" value="0" required>Approximately 3.47 hours.</label>
+                <label class="question-option"><input type="radio" name="bonus-answer" value="1" required>When it begins questioning its life choices.</label>
+                <label class="question-option"><input type="radio" name="bonus-answer" value="2" required>Insufficient data to establish neural velocity.</label>
+                <label class="question-option"><input type="radio" name="bonus-answer" value="3" required>All answers are proprietary.</label>
+              </div>
+            </fieldset>
+            <div class="assessment-actions">
+              <button class="text-button" id="bonus-decline" type="button">Decline Bonus Question</button>
+              <button class="button" type="submit">Submit Bonus Response</button>
+            </div>
+          </form>
+          <div id="assessment-evaluation" hidden>
+            <p class="eyebrow">Simulated Cognitive Evaluation</p>
+            <h3 id="evaluation-title" tabindex="-1">Evaluating your assessment.</h3>
+            <div class="evaluation-progress">
+              <progress id="evaluation-progress" max="100" value="0" aria-label="Cognitive evaluation progress"></progress>
+              <p id="evaluation-status" role="status" aria-atomic="true"></p>
+            </div>
+            <button class="text-button" id="evaluation-skip" type="button">Skip to Qualification</button>
+          </div>
           <form id="certificate-form" hidden>
             <p class="eyebrow">Assessment Complete</p>
-            <h3 tabindex="-1" id="qualification-title">You qualify.</h3>
-            <p>Your responses qualify you for the Certified Cognitive Elite novelty credential from the Brainiocracy™.</p>
+            <h3 tabindex="-1" id="qualification-title">Congratulations. You qualify!</h3>
+            <p>You have qualified for exclusive access to the Neural Advancement Protocol™.</p>
+            <h4 class="credential-invitation">Claim your Certified Cognitive Elite credential</h4>
+            <p>Enter your name below to generate your personalized credential from the Brainiocracy™.</p>
             <label class="field-label" for="display-name">Display name</label>
             <input type="text" id="display-name" name="display-name" maxlength="64" required autocomplete="off" placeholder="Name for your certificate">
-            <p class="fine-print">Your name stays on this device for this session.</p>
+            <p class="fine-print">Your name stays on this device for this session. The credential is a novelty for entertainment only.</p>
             <div class="assessment-actions"><button class="text-button" type="button" id="assessment-restart">Restart assessment</button><button class="button" type="submit">Generate Certificate</button></div>
           </form>
           <div id="certificate-view" hidden>
@@ -99,11 +128,13 @@
               <h3 tabindex="-1" id="certificate-title">Certified Cognitive Elite</h3>
               <p class="certificate-name" id="certificate-name" dir="auto"></p>
               <p>This individual has demonstrated extraordinary potential for intellectual self-confidence.</p>
-              <p class="certificate-disclosure">Novelty credential. No academic or professional standing.</p>
-              <p class="certificate-referral">
-                <span id="certificate-referral-label">Discover Your Cognitive Potential at Brainiocity™</span>
-                <a id="certificate-referral-url"></a>
-              </p>
+              <footer class="certificate-footer">
+                <p class="certificate-referral">
+                  <span id="certificate-referral-label">Discover Your Cognitive Potential at Brainiocity™</span>
+                  <a id="certificate-referral-url"></a>
+                </p>
+                <p class="certificate-disclosure" id="certificate-disclosure">For entertainment purposes only. Novelty credential with no academic or professional standing.</p>
+              </footer>
             </article>
             <div class="certificate-actions">
               <button class="button" type="button" id="download-certificate">Download Certificate</button>
@@ -121,14 +152,17 @@
       <div class="container">
         <div class="split-heading">
           <div><p class="eyebrow">The Technology</p><h2 id="technology-title">The Neural<br class="desktop-break"> Advancement Protocol<span class="tm">™</span></h2></div>
-          <p>The protocol optimizes the relationship between rest, cognition, and confidence. It starts with a simple observation. The mind already knows how to step away from a problem. Until now, it has largely done so on its own.</p>
+          <p>The protocol optimizes the relationship between rest, cognition, and confidence. The human mind has always possessed the ability to disengage, rest, and return with a fresh perspective. What it has lacked, until now, is a proprietary framework for doing so.</p>
         </div>
         <div class="pillars">
           <article><span class="pillar-icon alignment" aria-hidden="true"></span><h3>Neural Alignment</h3><p>Give existing cognitive pathways the space to align with their own natural patterns of activity.</p></article>
-          <article><span class="pillar-icon restoration" aria-hidden="true"></span><h3>Cognitive Restoration</h3><p>Reduce external inputs in a quiet setting, preferably with your eyes closed.</p></article>
+          <article><span class="pillar-icon restoration" aria-hidden="true"></span><h3>Cognitive Restoration</h3><p>Reduce external inputs in a quiet setting, preferably with your eyes closed. Blankie optional.</p></article>
           <article><span class="pillar-icon confidence" aria-hidden="true"></span><h3>Intellectual Confidence</h3><p>Return to your usual activities with a renewed sense of what you may already be capable of.</p></article>
         </div>
-        <p class="protocol-reveal">We call it <strong>NAP™</strong>.</p>
+        <div class="protocol-reveal">
+          <p>Together, these three principles form the foundation of our proprietary Neural Advancement Protocol™.</p>
+          <p><strong>For simplicity, we call it NAP™.</strong></p>
+        </div>
       </div>
     </section>
 
@@ -152,8 +186,8 @@
             <div class="simulator-content">
               <div id="sim-intro">
                 <p class="eyebrow">Protocol Demonstration</p>
-                <h3 id="simulator-title">Begin a NAP session.</h3>
-                <p>Follow the protocol from initial synchronization through cognitive restoration.</p>
+                <h3 id="simulator-title">Preview your projected benefits.</h3>
+                <p>Experience the anticipated cognitive benefits of our Neural Advancement Protocol™ without the inconvenience of actually resting.</p>
               </div>
               <div class="sim-readout" id="sim-readout" hidden>
                 <label for="sim-progress">Protocol progress <span id="progress-text" aria-hidden="true">0%</span></label>
@@ -168,7 +202,7 @@
                 <p class="fine-print">Results are statistically indistinguishable from doing absolutely nothing. This metric is fictional. No cognitive measurement was performed.</p>
               </div>
               <div class="sim-actions">
-                <button class="button" type="button" id="sim-start">Begin Neural Optimization</button>
+                <button class="button" type="button" id="sim-start">Initiate Simulation</button>
                 <button class="text-button" type="button" id="sim-precision" aria-controls="precision-panel" aria-expanded="false" hidden>Upgrade to NAP Pro for additional decimal places</button>
               </div>
             </div>
@@ -176,9 +210,10 @@
           <div class="precision-panel" id="precision-panel" hidden>
             <div><p class="eyebrow">Premium Precision</p><h3>Same intelligence. Superior precision.</h3><p class="fine-print">A comparison of fictional results.</p></div>
             <dl>
-              <div><dt>NAP Basic</dt><dd>+0.001%</dd></div>
-              <div><dt>NAP Pro</dt><dd>+0.00100%</dd></div>
-              <div><dt>NAP Executive</dt><dd>+0.00100000%</dd></div>
+              <div><dt><a href="#membership-basic">NAP Basic</a></dt><dd>+0.001%</dd></div>
+              <div><dt><a href="#membership-plus">NAP Plus</a></dt><dd>+0.0010%</dd></div>
+              <div><dt><a href="#membership-pro">NAP Pro</a></dt><dd>+0.00100%</dd></div>
+              <div><dt><a href="#membership-executive">NAP Executive</a></dt><dd>+0.00100000%</dd></div>
             </dl>
           </div>
         </div>
@@ -219,7 +254,7 @@
           <p>A private society for the cognitively ambitious. Members are distinguished by their commitment to personal advancement, as expressed through their subscription level.</p>
         </div>
         <div class="price-grid" id="plans">
-          <article class="price-card bronze">
+          <article class="price-card bronze" id="membership-basic" tabindex="-1">
             <div class="tier-visual" aria-hidden="true"><div class="display-pin"><span class="brand-mark"></span></div></div>
             <p class="eyebrow">Bronze Membership</p>
             <h3>Neuron Novice™</h3>
@@ -228,7 +263,7 @@
             <p>Ordinary thinking and essential cognitive reassurance.</p>
             <button type="button" class="button button-outline plan-button" data-plan="basic" aria-haspopup="dialog">Explore Basic</button>
           </article>
-          <article class="price-card silver">
+          <article class="price-card silver" id="membership-plus" tabindex="-1">
             <div class="tier-visual" aria-hidden="true"><div class="display-pin"><span class="brand-mark"></span></div></div>
             <p class="eyebrow">Silver Membership</p>
             <h3>Synaptic Elite™</h3>
@@ -237,7 +272,7 @@
             <p>Enhanced confidence and access to digital credentials.</p>
             <button type="button" class="button button-outline plan-button" data-plan="plus" aria-haspopup="dialog">Explore Plus</button>
           </article>
-          <article class="price-card gold featured">
+          <article class="price-card gold featured" id="membership-pro" tabindex="-1">
             <div class="tier-visual" aria-hidden="true"><div class="display-pin"><span class="brand-mark"></span></div></div>
             <p class="eyebrow">Gold Membership</p>
             <h3>Cognitive Superior™</h3>
@@ -246,7 +281,7 @@
             <p>Premium intellectual affirmation and advanced social distinction.</p>
             <button type="button" class="button plan-button" data-plan="pro" aria-haspopup="dialog">Explore Pro</button>
           </article>
-          <article class="price-card platinum">
+          <article class="price-card platinum" id="membership-executive" tabindex="-1">
             <div class="tier-visual" aria-hidden="true"><div class="display-pin"><span class="brand-mark"></span></div></div>
             <p class="eyebrow">Platinum Membership</p>
             <h3>Neural Overlord™</h3>

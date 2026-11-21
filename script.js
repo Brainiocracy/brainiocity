@@ -3,7 +3,7 @@
 const byId = (id) => document.getElementById(id);
 
 // Set this to the public site address before a custom-domain launch.
-const publicSiteUrl = "https://brainiocracy.github.io/brainiocity/";
+const publicSiteUrl = "https://brainiocity.com";
 const certificateReferralLink = byId("certificate-referral-url");
 certificateReferralLink.href = publicSiteUrl;
 certificateReferralLink.textContent = publicSiteUrl;
@@ -257,7 +257,7 @@ function finishSimulation() {
   simResults.hidden = false;
   simPrecision.hidden = false;
   simStart.removeAttribute("aria-disabled");
-  simStart.textContent = "Repeat NAP Session";
+  simStart.textContent = "Repeat Simulation";
   simState.textContent = "Complete";
   drawBrain(-1, 0, true);
   if (document.activeElement === simStart) byId("sim-result-heading").focus({ preventScroll: true });
@@ -275,7 +275,7 @@ simStart.addEventListener("click", () => {
   byId("progress-text").textContent = "0%";
   simMessage.textContent = "";
   simStart.setAttribute("aria-disabled", "true");
-  simStart.textContent = "Session in Progress";
+  simStart.textContent = "Simulation in Progress";
   simState.textContent = "Optimizing";
 
   const started = performance.now();
@@ -312,15 +312,43 @@ simPrecision.addEventListener("click", () => setPrecisionOpen(precisionPanel.hid
 drawBrain();
 
 const assessmentQuestions = [
-  { text: "Are you currently thinking?", options: ["Yes", "I was until you asked", "I prefer to observe"] },
-  { text: "Have you ever experienced an idea?", options: ["At least once", "Several, possibly related", "I’m waiting for independent confirmation"] },
-  { text: "Can you recognize a brain?", options: ["In most contexts", "With appropriate labeling", "I’d like a second opinion"] },
-  { text: "Do you believe you are more intelligent than average?", options: ["Yes", "It depends on the average", "I’m modest about these things"] },
-  { text: "Have you ever disagreed with an expert on the internet?", options: ["Yes, in writing", "Privately", "I’ve shown considerable restraint"] }
+  {
+    text: "Are you currently thinking?",
+    options: ["Yes.", "I ... think so?", "I was until you asked.", "I'd prefer not to speculate."]
+  },
+  {
+    text: "Have you ever experienced an idea?",
+    options: ["At least once.", "Several, possibly related.", "I independently invented something that already existed.", "I'm waiting for independent confirmation."]
+  },
+  {
+    text: "Can you recognize a brain?",
+    options: ["In most contexts.", "With appropriate labeling.", "I'd like a second opinion.", "I've never encountered one in person."]
+  },
+  {
+    text: "Do you believe you are more intelligent than average?",
+    options: ["Obviously.", 'Define "average."', "I'm modest about these things.", "That's classified information."]
+  },
+  {
+    text: "Have you ever disagreed with an expert on the internet?",
+    options: ["Yes, in writing.", "Privately, while screaming into a pillow.", "I've shown considerable restraint.", "I'm not convinced internet experts exist."]
+  }
+];
+
+const evaluationMessages = [
+  "Analyzing response patterns...",
+  "Evaluating cognitive indicators...",
+  "Cross-referencing intellectual potential...",
+  "Calibrating confidence parameters...",
+  "Confirming exceptional status...",
+  "Exceptional cognitive potential confirmed"
 ];
 
 const assessmentIntro = byId("assessment-intro");
 const assessmentForm = byId("assessment-form");
+const bonusForm = byId("bonus-form");
+const evaluation = byId("assessment-evaluation");
+const evaluationProgress = byId("evaluation-progress");
+const evaluationStatus = byId("evaluation-status");
 const certificateForm = byId("certificate-form");
 const certificateView = byId("certificate-view");
 const assessmentNextStep = byId("assessment-next-step");
@@ -328,10 +356,10 @@ const displayName = byId("display-name");
 const questionText = byId("question-text");
 const questionOptions = byId("question-options");
 const questionBack = byId("question-back");
-const questionNext = byId("question-next");
 const certificateDownloadStatus = byId("certificate-download-status");
 const answers = [];
 let questionIndex = 0;
+let evaluationFrame;
 
 function showQuestion() {
   const question = assessmentQuestions[questionIndex];
@@ -354,7 +382,6 @@ function showQuestion() {
     questionOptions.append(label);
   });
   questionBack.hidden = questionIndex === 0;
-  questionNext.textContent = questionIndex === assessmentQuestions.length - 1 ? "View Result" : "Continue";
   questionText.focus({ preventScroll: true });
 }
 
@@ -376,18 +403,70 @@ assessmentForm.addEventListener("submit", (event) => {
   saveAnswer();
   if (questionIndex === assessmentQuestions.length - 1) {
     assessmentForm.hidden = true;
-    certificateForm.hidden = false;
-    assessmentNextStep.hidden = false;
-    byId("qualification-title").focus({ preventScroll: true });
+    bonusForm.hidden = false;
+    byId("bonus-title").focus();
     return;
   }
   questionIndex += 1;
   showQuestion();
 });
 
+function showQualification() {
+  cancelAnimationFrame(evaluationFrame);
+  const restoreFocus = evaluation.contains(document.activeElement);
+  evaluation.hidden = true;
+  certificateForm.hidden = false;
+  assessmentNextStep.hidden = false;
+  if (restoreFocus) byId("qualification-title").focus();
+}
+
+function beginEvaluation() {
+  if (bonusForm.hidden) return;
+  bonusForm.hidden = true;
+  evaluation.hidden = false;
+  evaluationProgress.value = 0;
+  evaluationStatus.textContent = "";
+  byId("evaluation-title").focus();
+
+  const startedAt = performance.now();
+  const messageDuration = 1100;
+  const confirmationAt = messageDuration * (evaluationMessages.length - 1);
+  const endsAt = confirmationAt + 800;
+  let lastMessage = -1;
+
+  function advance(now) {
+    const elapsed = Math.max(0, now - startedAt);
+    if (elapsed >= endsAt) {
+      showQualification();
+      return;
+    }
+    const message = Math.floor(Math.min(elapsed, confirmationAt) / messageDuration);
+    const messageChanged = lastMessage !== message;
+    if (messageChanged) {
+      evaluationStatus.textContent = evaluationMessages[message];
+      evaluationStatus.classList.toggle("evaluation-confirmation", elapsed >= confirmationAt);
+      lastMessage = message;
+    }
+    const progress = reducedMotion.matches ? message * messageDuration : elapsed;
+    const percent = Math.min(100, Math.floor(100 * progress / confirmationAt));
+    if (evaluationProgress.value !== percent) evaluationProgress.value = percent;
+    evaluationFrame = requestAnimationFrame(advance);
+  }
+
+  evaluationFrame = requestAnimationFrame(advance);
+}
+
+bonusForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  beginEvaluation();
+});
+byId("bonus-decline").addEventListener("click", beginEvaluation);
+byId("evaluation-skip").addEventListener("click", showQualification);
+
 byId("assessment-restart").addEventListener("click", () => {
   answers.length = 0;
   questionIndex = 0;
+  bonusForm.reset();
   certificateForm.reset();
   assessmentNextStep.hidden = true;
   displayName.setCustomValidity("");
@@ -426,6 +505,32 @@ byId("print-certificate").addEventListener("click", () => {
   }
 });
 
+function drawCertificateName(ctx, name) {
+  const maxWidth = 1300;
+  const lines = [name];
+
+  ctx.font = "italic 400 100px Newsreader, Georgia, serif";
+  ctx.direction = getComputedStyle(byId("certificate-name")).direction;
+  if (ctx.measureText(name).width > maxWidth / .62) {
+    const characters = typeof Intl.Segmenter === "function"
+      ? Array.from(new Intl.Segmenter().segment(name), ({ segment }) => segment)
+      : Array.from(name);
+    const middle = Math.ceil(characters.length / 2);
+    const space = characters.findIndex((character, index) => Math.abs(index - middle) <= 4 && /\s/.test(character));
+    const split = space === -1 ? middle : space;
+    lines.splice(0, 1, characters.slice(0, split).join("").trim(), characters.slice(split).join("").trim());
+  }
+
+  const widestLine = Math.max(...lines.map((line) => ctx.measureText(line).width));
+  const fontSize = Math.min(lines.length === 1 ? 100 : 74, 100 * maxWidth / widestLine);
+  ctx.font = `italic 400 ${fontSize}px Newsreader, Georgia, serif`;
+  lines.forEach((line, index) => {
+    const offset = (index - (lines.length - 1) / 2) * fontSize * 1.15;
+    ctx.fillText(line, 800, 578 + offset, maxWidth);
+  });
+  ctx.direction = "ltr";
+}
+
 byId("download-certificate").addEventListener("click", async () => {
   const name = byId("certificate-name").textContent;
   try {
@@ -458,22 +563,20 @@ byId("download-certificate").addEventListener("click", async () => {
     ctx.fillStyle = "#252044";
     ctx.font = "400 94px Newsreader, Georgia, serif";
     ctx.fillText("Certified Cognitive Elite", 800, 420, 1300);
-    ctx.font = "italic 400 100px Newsreader, Georgia, serif";
-    ctx.direction = getComputedStyle(byId("certificate-name")).direction;
-    ctx.fillText(name, 800, 578, 1300);
-    ctx.direction = "ltr";
+    drawCertificateName(ctx, name);
 
     ctx.fillStyle = "#615d70";
     ctx.font = "400 30px Inter, sans-serif";
     ctx.fillText("This individual has demonstrated extraordinary potential", 800, 700);
     ctx.fillText("for intellectual self-confidence.", 800, 747);
-    ctx.font = "400 23px Inter, sans-serif";
-    ctx.fillText("Novelty credential. No academic or professional standing.", 800, 895);
     ctx.fillStyle = "#554d86";
-    ctx.font = "400 20px Inter, sans-serif";
-    ctx.fillText(byId("certificate-referral-label").textContent, 800, 926, 1300);
+    ctx.font = "400 23px Inter, sans-serif";
+    ctx.fillText(byId("certificate-referral-label").textContent, 800, 839, 1300);
     ctx.font = "500 23px Inter, sans-serif";
-    ctx.fillText(publicSiteUrl, 800, 953, 1300);
+    ctx.fillText(publicSiteUrl, 800, 875, 1300);
+    ctx.fillStyle = "#615d70";
+    ctx.font = "400 20px Inter, sans-serif";
+    ctx.fillText(byId("certificate-disclosure").textContent, 800, 926, 1300);
 
     const blob = await new Promise((resolve) => image.toBlob(resolve, "image/png"));
     if (!blob) throw new Error("The certificate image could not be generated.");
